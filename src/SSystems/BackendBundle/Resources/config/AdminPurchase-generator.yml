@@ -1,0 +1,83 @@
+generator: admingenerator.generator.doctrine
+params:
+    model: SSystems\EstocBundle\Entity\Purchase
+    namespace_prefix: SSystems
+    concurrency_lock: ~
+    bundle_name: BackendBundle
+    pk_requirement: ~
+    fields: ~
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+    list:
+        params:
+            title: Ventas
+            display: [client,price,created,charge]
+            fields:
+              client:
+                label: Cliente
+                getter: user.clientProfile
+              price:
+                label: Precio total
+              created:
+                label: Fecha y Hora
+              charge:
+                label: se Cobro?
+#            actions:
+#                new: ~
+            object_actions:
+                show: ~
+                delete: ~
+    filters:
+        params:
+            display: [charge]
+            fields:
+              created:
+                formType: daterange_picker
+    new:
+        params:
+            title: New object for BackendBundle
+            display: ~
+            actions:
+                save: ~
+                list: ~
+    edit:
+        params:
+            title: "You're editing the object"
+            display: ~
+            actions:
+                save: ~
+                list: ~
+    show:
+        params:
+            title: "Estas viendo la compra de: \"%object%\"|{ %object%: Purchase.user.clientProfile }|"
+            display: [purchaseDetails,created,charge]
+            fields:
+              purchaseDetails:
+                label: Detalle
+              created:
+                label: Fecha
+              charge:
+                label: Se Cobro?
+            actions:
+              list: ~
+              charge:
+                label:    Marcar como cobrado
+                icon:     icon-check
+                route:    SSystems_BackendBundle_AdminPurchase_object
+                csrfProtected: true
+                params:
+                    pk:       "{{ Purchase.id }}"
+                    action:   charge
+                options:
+                    # this is the title for intermediate page
+                    # if JS is avaliable then intermediate page will not be used
+                    title:  "Are you sure you want to charge this?"
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~

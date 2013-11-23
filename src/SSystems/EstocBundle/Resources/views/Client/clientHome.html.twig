@@ -1,0 +1,64 @@
+{% extends 'EstocBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/flexslider.css') }}" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="pure-g-r">
+        <div class="pure-u-1-5">
+            <nav class="pure-menu pure-menu-open sidebar">
+                <ul>
+                    <li class="first leaf"><a href="{{ path('downloadImages') }}" title="">DESCARGAR IMAGENES</a></li>
+                    <li class="leaf"><a href="{{ path('clientKart') }}" title="">CARRITO DE COMPRAS</a></li>
+                    <li class="leaf"><a href="{{ path('clientPersonalDetail') }}" title="">DATOS PERSONALES</a></li>
+                    <li class="leaf"><a href="{{ path('specialOrder') }}" title="">PEDIDOS ESPECIALES</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="pure-u-4-5">
+            {% block content_client %}
+                <div class="home-container">
+                    <ul class="menu_home clearfix pure-g">
+                        <li class="item item-1 pure-u-1-3">
+                            <div class="item-icon">
+                                <a href="{{ path('clientKart') }}"><img src="{{ asset('images/icon_carrito.png') }}" /></a>
+                            </div>
+                            <a href="{{ path('clientKart') }}"><img src="{{ asset('images/text_carrito.png') }}" /></a>
+                            <p class="description">Ingresa aqu&iacute; para subir tus imagenes</p>
+                            <div>
+                                <a class="pure-button button" href="{{ path('clientKart') }}">Ingresar</a>
+                            </div>
+                        </li>
+                        <li class="item item-2 pure-u-1-3">
+                            <div class="item-icon">
+                                <a href="{{ path('clientPersonalDetail') }}"><img src="{{ asset('images/profile_icon.png') }}" /></a>
+                            </div>
+                            <a href="{{ path('clientPersonalDetail') }}"><img src="{{ asset('images/profile_text.png') }}" /></a>
+                            <p class="description">Ingresa aqu&iacute; para actualizar tus datos personales y los datos para el pago de las imagenes</p>
+                            <div>
+                                <a class="pure-button button" href="{{ path('clientPersonalDetail') }}">Ingresar</a>
+                            </div>
+                        </li>
+                        <li class="item item-3 pure-u-1-3">
+                            <div class="item-icon">
+                                <a href="{{ path('specialOrder') }}"><img src="{{ asset('images/icon_pedidos.png') }}" /></a>
+                            </div>
+                            <a href="{{ path('specialOrder') }}"><img src="{{ asset('images/text_pedidos.png') }}" /></a>
+                            <p class="description">Ingresa aqu&iacute; para actualizar tus datos personales y los datos para el pago de las imagenes</p>
+                            <div>
+                                <a class="pure-button button" href="{{ path('specialOrder') }}">Ingresar</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_header %}
+    {{ render(controller('EstocBundle:Front:searchBox')) }}
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends_admingenerated "SSystemsBackendBundle:AdminCollaboratorProfileShow:index.html.twig" %}
+
+{% block show_column_user %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Tamaño</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Precio</th>
+            <th>Exclusividad?</th>
+            <th>Precio total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set totalPrice = 0 %}
+        {% for image in CollaboratorProfile.user.images %}
+            {% for purchaseDetail in image.purchaseDetails %}
+            <tr>
+                <td><img class="image-link" src="{{ (vich_uploader_asset(purchaseDetail.image,'file')) | apply_filter('collaborator_upload_thumb') }}" /></td>
+                <td>{{ purchaseDetail.imagesize | raw }}</td>
+                <td>{{ purchaseDetail.purchase.user.clientProfile }}</td>
+                <td>{{ purchaseDetail.purchase.created | date }}</td>
+                <td>{{ purchaseDetail.price | priceCollaborator }}</td>
+                <td>
+                    {% if purchaseDetail.exclusive %}
+                        <strong>si!!</strong>
+                    {% else %}
+                        No
+                    {% endif %}
+                </td>
+                <td>{{ purchaseDetail.getTotalPrice | priceCollaborator }}</td>
+            </tr>
+                {% set totalPrice = totalPrice + purchaseDetail.getTotalPrice %}
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="5"></th>
+            <th>subtotal:</th>
+            <th>{{ totalPrice | priceCollaborator }}</th>
+        </tr>
+        <tr>
+            <th colspan="5"></th>
+            <th>iva 10%:</th>
+            <th>{{ (totalPrice*priceIva) | priceCollaborator }}</th>
+        </tr>
+        <tr>
+            <th colspan="5"></th>
+            <th>total:</th>
+            <th>{{ (totalPrice*pricePlusIva) | priceCollaborator }}</th>
+        </tr>
+        </tfoot>
+    </table>
+{% endblock show_column_user %}

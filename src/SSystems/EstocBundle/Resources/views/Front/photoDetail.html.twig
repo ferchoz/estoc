@@ -1,0 +1,99 @@
+{% extends 'EstocBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {#<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">#}
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    {#<link rel="stylesheet" href="{{ asset('css/user.css') }}">#}
+{% endblock %}
+
+{% block body %}
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+        <header>
+            <div class="pure-g">
+                <div class="pure-u-1-2">
+                    <div class="logo-photo-detail">
+                        <img src="{{ asset('images/logo_photo_detail.png') }}"><span class="logo-leyend">EL PRIMER BANCO DE IMÁGENES 100% LOCAL</span>
+                    </div>
+                </div>
+                <div class="pure-u-1-2"></div>
+            </div>
+            {% block extra_header %}{% endblock %}
+        </header>
+        <section>
+            <div class="pure-g" id="flash_message_hiden">
+                <div class="pure-u-1-3">
+                </div>
+                <div class="pure-u-1-3">
+                    {% block flash_message %}
+                        {% for label, flashes in app.session.flashbag.all %}
+                            {% for flash in flashes %}
+                                <div id="flash_message" class="alert-box {{ label }}">{#<span>{{ label }}: </span>#}{{ flash }}</div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endblock %}
+                </div>
+                <div class="pure-u-1-3">
+                </div>
+            </div>
+            <div class="pure-g">
+                <div class="pure-u-3-4">
+                    <div class="container-photo-container">
+                        <div class="container-photo">
+                            <img src="{{ (vich_uploader_asset(image,'file')) | apply_filter('photo_detail') }}" />
+                        </div>
+                        {#<div class="container-description">#}
+                            {#<span>DESCARGAR PARA BOCETO</span>#}
+                        {#</div>#}
+                    </div>
+                    <div class="photo-info">
+                        <span class="photo-info-text">ID de la fotografía:</span> <span class="photo-info-info">{{ image.id }}</span></br>
+                        <span class="photo-info-text">Fotógrafo:</span> <span class="photo-info-info">{{ image.user.collaboratorProfile }}</span>
+                        <div class="blank-space"></div>
+                    </div>
+                </div>
+                <div class="pure-u-1-4">
+                    <div class="container-info-container">
+                        <div class="container-info-buttons">
+                            <button id="add_to_kart" class="button-large">AÑADIR AL CARRITO</button>
+                        </div>
+                        <div class="container-info-related">
+                            <p class="">IMÁGENES SIMILARES</p>
+                            <div class="pure-g">
+                                {% for related_image in related_images %}
+                                    <div class="pure-u related-images-space">
+                                        <a href="{{ path('photoDetail',{'id':related_image.id}) }}" class="photoDetail"><img src="{{ (vich_uploader_asset(related_image,'file')) | apply_filter('photo_related') }}" /></a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            $('#add_to_kart').click(function(){
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path('clientAddToKart', {'id': image.id}) }}',
+//                    data: $("#contact-form").serialize(), // serializes the form's elements.
+                    success: function(data)
+                    {
+                        if(data == 'true'){
+//                            console.log('object added to the kart'); // show response from the php script.
+                            location.reload();
+                        }else{
+                            location.reload();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

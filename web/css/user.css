@@ -1,0 +1,63 @@
+.pure-form {
+  color: #FFF;
+  font-size: 1.2em;
+  background-color: #000;
+  border-radius: 10px;
+  margin: 20px auto;
+  width: 15em;
+  padding: 1.2em 2em;
+}
+
+.pure-form label {
+  margin-bottom: 5px;
+}
+
+.pure-form-stacked input[type=text],
+.pure-form-stacked input[type=password],
+.pure-form-stacked input[type=email],
+.pure-form .pure-group input[type=text],
+.pure-form .pure-group input[type=password],
+.pure-form .pure-group input[type=email] {
+  margin-bottom: 15px;
+  width: 100%;
+  border-radius: 1px;
+  padding: 5px;
+  height: 26px;
+}
+
+
+.pure-form.register {
+  width: 25em;
+}
+
+.pure-form .pure-group input.register-btn {
+  margin-top: 30px;
+  padding: 6px;
+  font-size: 0.6em;
+  border-radius: 0;
+  float: right;
+  width: 104px !important;
+}
+
+.register .pure-group {
+  border-bottom: 1px solid #aaa;
+}
+
+.form-container {
+  margin: 20px auto;
+  width: 48em;
+}
+
+.form-container .pure-form {
+  margin: 0 .5em;
+  float: left;
+}
+
+.pure-form.col-register {
+  text-align: center;
+}
+
+.pure-form.col-register .pure-button {
+  width: 102px !important;
+  padding: 3px 0 0;
+}

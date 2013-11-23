@@ -1,0 +1,90 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/pure-min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/box.css') }}">
+{% endblock %}
+
+{% block title 'Estoc' %}
+
+{% block body %}
+        <div class="container">
+            <header>
+                <nav class="pure-menu pure-menu-open pure-menu-horizontal clearfix">
+                    <ul class="menu" id="contact-nav">
+                        <li class="first leaf"><a href="{{ path('contactUs') }}">ATENCION AL CLIENTE</a></li>
+                        <li class="last leaf"><a href="{{ path('aboutUs') }}">QUIENES SOMOS</a></li>
+                    </ul>
+                    <ul class="menu"  id="user-nav">
+                        {% if app.user %}
+                            <li class="first leaf"><a href="{{ path('collaborator_logout') }}">LOGOUT</a></li>
+                        {% else %}
+                            <li class="first leaf"><a href="{{ path('clientLogin') }}" title="">LOGIN</a></li>
+                            <li class="leaf"><a href="{{ path('clientRegister') }}" title="">REGISTRARSE</a></li>
+                        {% endif %}
+
+                        {% if is_granted('ROLE_CLIENT') %}
+                            <li class="last leaf"><a href="{{ path('clientKart') }}" title="">CARRITO DE COMPRAS</a></li>
+                        {% else %}
+                            <li class="last leaf"><a href="{{ path('collaboratorHome') }}" title="">INGRESO COLABORADORES</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                <div class="pure-g">
+                    <div class="pure-u-1-3">
+                    </div>
+
+                    <div class="pure-u-1-3">
+                        <a href="{{ path('home') }}" title="Home" rel="home" class="logo">
+                            <img src="{{ asset('images/logo.png') }}" alt="Home">
+                        </a>
+                    </div>
+
+                    <div class="pure-u-1-3">
+                        {% if is_granted('ROLE_COLLABORATOR') %}
+                            <ul class="user-profile-ul">
+                                <li>Bienvenido, <span>{{ app.user.collaboratorProfile }}</span></li>
+                                <li><a href="{{ path('collaborator_logout') }}" title="">SALIR</a></li>
+                            </ul>
+                        {% elseif is_granted('ROLE_CLIENT') %}
+                            <ul class="user-profile-ul">
+                                <li>Bienvenido, <span>{{ app.user.clientProfile }}</span></li>
+                                <li><a href="{{ path('collaborator_logout') }}" title="">SALIR</a></li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                {% block extra_header %}{% endblock %}
+            </header>
+            <div class="pure-g" id="flash_message_hiden">
+                <div class="pure-u-1-3">
+                </div>
+                <div class="pure-u-1-3">
+                    {% block flash_message %}
+                        {% for label, flashes in app.session.flashbag.all %}
+                            {% for flash in flashes %}
+                                <div id="flash_message" class="alert-box {{ label }}">{#<span>{{ label }}: </span>#}{{ flash }}</div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endblock %}
+                </div>
+                <div class="pure-u-1-3">
+                </div>
+            </div>
+
+            {% block sidebar %}{% endblock %}
+
+            {% block content %}{% endblock %}
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/jquery-1.10.2.min.js') }}"> </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $( "#flash_message" ).delay(1600).fadeOut(1600, "linear");
+        });
+    </script>
+{% endblock %}

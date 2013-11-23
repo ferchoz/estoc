@@ -1,0 +1,176 @@
+{% extends_admingenerated "SSystemsBackendBundle:AdminCollaboratorProfileList:row.html.twig" %}
+{% block list_td_column_firstname %}
+    <!-- Button to trigger modal -->
+    {% spaceless %}
+        <a
+                class="btn btn-mini "
+                data-toggle="modal"
+                data-target="#{{ CollaboratorProfile.id }}"
+                data-original-title="Mostrar información"
+                rel="tooltip"
+                >
+            <i class="icon-user"></i>
+        </a>
+        {{ CollaboratorProfile.firstname }}
+    {% endspaceless %}
+
+    <!-- modal -->
+    <div id="{{ CollaboratorProfile.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Datos del Colaborador</h3>
+        </div>
+        <div class="">
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Nombre</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_firstname">
+                        {{ CollaboratorProfile.firstname }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Apellido</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_lastname">
+                        {{ CollaboratorProfile.lastname }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Teléfono</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_phone">
+                        {{ CollaboratorProfile.phone }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Ciudad</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_city">
+                        {{ CollaboratorProfile.city }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Dirección</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_address">
+                        {{ CollaboratorProfile.address }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Cantón</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_canton">
+                        {{ CollaboratorProfile.canton }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Provincia</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_state">
+                        {{ CollaboratorProfile.state }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Código Postal</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_postalCode">
+                        {{ CollaboratorProfile.postalCode }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Metodo de pago</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_paymentMethod">
+                        {{ CollaboratorProfile.paymentMethod }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Titular de la cuenta</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_titularCuenta">
+                        {{ CollaboratorProfile.titularCuenta }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Cédula o RUC</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_cedulaRuc">
+                        {{ CollaboratorProfile.cedulaRuc }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Banco</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_banco">
+                        {{ CollaboratorProfile.banco }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Numero de cuenta</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_numeroCuenta">
+                        {{ CollaboratorProfile.numeroCuenta }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Fecha de Registro</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_created">
+                        {{ CollaboratorProfile.created | date }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Fecha de modificación</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_updated">
+                        {{ CollaboratorProfile.updated | date }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock list_td_column_firstname %}

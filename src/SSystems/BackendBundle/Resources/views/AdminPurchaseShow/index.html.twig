@@ -1,0 +1,59 @@
+{% extends_admingenerated "SSystemsBackendBundle:AdminPurchaseShow:index.html.twig" %}
+
+{% block show_column_purchaseDetails %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Tamaño</th>
+            <th>Colaborador</th>
+            <th>Precio</th>
+            <th>Exclusividad?</th>
+            <th>Precio total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in Purchase.purchaseDetails %}
+            <tr>
+                <td><img class="image-link" src="{{ (vich_uploader_asset(object.image,'file')) | apply_filter('collaborator_upload_thumb') }}" /></td>
+                <td>{{ object.imagesize | raw }}</td>
+                <td>{{ object.image.user.collaboratorProfile }}</td>
+                <td>{{ object.price | price }}</td>
+                <td>
+                    {% if object.exclusive %}
+                        <strong>si!!</strong>
+                    {% else %}
+                        No
+                    {% endif %}
+                </td>
+                <td>{{ object.totalPrice | price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="4"></th>
+            <th>subtotal:</th>
+            <th>{{ Purchase.price | price }}</th>
+        </tr>
+        <tr>
+            <th colspan="4"></th>
+            <th>iva 10%:</th>
+            <th>{{ (Purchase.price*0.1) | price }}</th>
+        </tr>
+        <tr>
+            <th colspan="4"></th>
+            <th>total:</th>
+            <th>{{ (Purchase.price*1.1) | price }}</th>
+        </tr>
+        </tfoot>
+    </table>
+{% endblock show_column_purchaseDetails %}
+
+{% block show_column_charge %}
+    {% if Purchase.charge %}
+        Sí
+    {% else %}
+        No
+    {% endif %}
+{% endblock show_column_charge %}

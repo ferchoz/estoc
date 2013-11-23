@@ -1,0 +1,5 @@
+<form class="search-widget" method="POST" action="{{ path('main') }}">
+    <div class="search-input-div">{{ form_widget(form.search) }}</div>
+    <div class="search-button-div">{{ form_widget(form.go) }}</div>
+    {{ form_rest(form) }}
+</form>

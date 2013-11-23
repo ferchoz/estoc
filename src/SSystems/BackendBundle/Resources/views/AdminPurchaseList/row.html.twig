@@ -1,0 +1,177 @@
+{% extends_admingenerated "SSystemsBackendBundle:AdminPurchaseList:row.html.twig" %}
+
+{% block list_td_column_client %}
+    <!-- Button to trigger modal -->
+    {% spaceless %}
+        <a
+                class="btn btn-mini "
+                data-toggle="modal"
+                data-target="#{{ Purchase.id }}"
+                data-original-title="Mostrar información"
+                rel="tooltip"
+                >
+            <i class="icon-user"></i>
+        </a>
+        {{ Purchase.user.clientProfile }}
+    {% endspaceless %}
+    <!-- modal -->
+    <div id="{{ Purchase.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Datos del Usuario</h3>
+        </div>
+        <div class="">
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Nombre y Apellido:</strong>
+                </div>
+                <div class="span4"><div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Email:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.email }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Teléfono:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.phone }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Ciudad:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.city }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Empresa:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.business }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Dirección:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.address }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Cantón:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.canton }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Provincia:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.state }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Codigo Postal:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.postalCode }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Razon Social:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.razonSocial }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Cédula o RUC:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.cedulaRuc }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Teléfono Comercial:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.comercialPhone }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Metodo de pago:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.paymentMethod }}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4 text-right">
+                    <strong>Nombre de contacto:</strong>
+                </div>
+                <div class="span4">
+                    <div class="control-group form_field field_username">
+                        {{ Purchase.user.clientProfile.contactName }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock list_td_column_client %}
+
+{% block list_td_column_price %}
+    {{ Purchase.price | price }}
+{% endblock list_td_column_price %}
+
+{% block list_td_column_charge %}
+    {% if Purchase.charge %}
+        Sí
+    {% else %}
+        No
+    {% endif %}
+{% endblock list_td_column_charge %}

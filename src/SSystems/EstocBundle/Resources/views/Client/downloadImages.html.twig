@@ -1,0 +1,33 @@
+{% extends 'EstocBundle:Client:clientHome.html.twig' %}
+
+{% block content_client %}
+    <div class="container-space home-container">
+        <div class="menu_titulo clearfix pure-g">
+            <div class="pure-u-2-3">IMAGENES PARA DESCARGAR</div>
+            <hr />
+        </div>
+        <div class="clearfix pure-g">
+            <div>
+                <ul class="menu_home clearfix pure-g">
+                {% for purchase in purchases %}
+                    {% for purchaseDetail in purchase.purchaseDetails %}
+                    <li class="pure-u search-thumb">
+                        <img class="image-box" src="{{ (vich_uploader_asset(purchaseDetail.image,'file')) | apply_filter('search_thumb') }}" />
+                       <p><a href="{{ path('downloadImageFile', {'imageName':purchaseDetail.image.imageName}) }}" target="_blank" class="description">DESCARGAR</a></p>
+                    </li>
+                    {% endfor %}
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="large-field">
+            </div>
+        </div>
+        <div class="clearfix pure-g">
+            <hr />
+            <div class="align-right">
+                <div class="pure-u">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

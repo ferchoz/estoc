@@ -1,0 +1,82 @@
+generator: admingenerator.generator.doctrine
+params:
+    model: SSystems\EstocBundle\Entity\CollaboratorProfile
+    namespace_prefix: SSystems
+    concurrency_lock: ~
+    bundle_name: BackendBundle
+    pk_requirement: ~
+    fields: ~
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+    list:
+        params:
+            title: Colaboradores
+            display: [firstname,lastname,user,email,created,getHaveUnpaidCharges]
+            fields:
+              firstname:
+                label: Nombre
+              lastname:
+                label: Apellido
+              user:
+                getter: user.username
+                label: Usuario
+              email:
+                getter: user.email
+                label: Email
+              created:
+                label: Fecha registro
+              getHaveUnpaidCharges:
+                label: Falta pagar?
+                dbType: boolean
+#            actions:
+#                new: ~
+            object_actions:
+                show: ~
+                delete: ~
+    filters:
+        params:
+            display: [firstname,lastname,cedulaRuc,numeroCuenta,postalCode,banco]
+    new:
+        params:
+            title: New object for BackendBundle
+            display: ~
+            actions:
+                save: ~
+                list: ~
+    edit:
+        params:
+            title: "You're editing the object \"%object%\"|{ %object%: CollaboratorProfile }|"
+            display: ~
+            actions:
+                save: ~
+                list: ~
+    show:
+        params:
+            title: "You're viewing the object \"%object%\"|{ %object%: CollaboratorProfile }|"
+            display: [user]
+            fields:
+#              user:
+#                getter: user.images
+            actions:
+              list: ~
+              charge:
+                label:    Marcar todo como Pagado
+                icon:     icon-check
+                route:    SSystems_BackendBundle_AdminCollaboratorProfile_object
+                csrfProtected: true
+                params:
+                    pk:       "{{ CollaboratorProfile.id }}"
+                    action:   paid
+                options:
+                    # this is the title for intermediate page
+                    # if JS is avaliable then intermediate page will not be used
+                    title:  "Are you sure you want to charge this?"
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~

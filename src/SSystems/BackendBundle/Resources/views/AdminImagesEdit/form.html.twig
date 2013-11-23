@@ -1,0 +1,6 @@
+{% extends_admingenerated "SSystemsBackendBundle:AdminImagesEdit:form.html.twig" %}
+
+{% block form_exclusive %}
+    <img class="image-link" src="{{ (vich_uploader_asset(form.vars.data,'file')) | apply_filter('search_thumb') }}" />
+    {{ form_row(form['exclusive']) }}
+{% endblock form_exclusive %}

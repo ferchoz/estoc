@@ -1,0 +1,60 @@
+{% extends 'EstocBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/flexslider.css') }}" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="pure-g-r">
+    <div class="pure-u-1-5">
+        <nav class="pure-menu pure-menu-open sidebar">
+            <ul>
+                <li class="first leaf"><a href="{{ path('collaboratorUpload') }}" title="">SUBIR IMAGEN</a></li>
+                <li class="leaf"><a href="{{ path('collaboratorAccount') }}" title="">ESTADO DE CUENTA</a></li>
+                <li class="leaf"><a href="{{ path('collaboratorPersonalDetail') }}" title="">DATOS PERSONALES</a></li>
+                <li class="last leaf"><a href="{{ path('collaboratorDownload') }}" title="">DESCARGAS</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="pure-u-4-5">
+        {% block content_collaborator %}
+            <div class="home-container">
+                <ul class="menu_home clearfix pure-g">
+                    <li class="item item-1 pure-u-1-3">
+                        <div class="item-icon">
+                            <a href="{{ path('collaboratorUpload') }}"><img src="{{ asset('images/upload_icon.png') }}" /></a>
+                        </div>
+                        <a href="{{ path('collaboratorUpload') }}"><img src="{{ asset('images/upload_text.png') }}" /></a>
+                        <p class="description">Ingresa aqu&iacute; para subir tus imagenes</p>
+                        <div>
+                            <a class="pure-button button" href="{{ path('collaboratorUpload') }}">Ingresar</a>
+                        </div>
+                    </li>
+                    <li class="item item-2 pure-u-1-3">
+                        <div class="item-icon">
+                            <a href="{{ path('collaboratorAccount') }}"><img src="{{ asset('images/account_icon.png') }}" /></a>
+                        </div>
+                        <a href="{{ path('collaboratorAccount') }}"><img src="{{ asset('images/account_text.png') }}" /></a>
+                        <p class="description">Ingresa aqu&iacute; para saber todo acerca de tus pagos e imagenes vendidas</p>
+                        <div>
+                            <a class="pure-button button" href="{{ path('collaboratorAccount') }}">Ingresar</a>
+                        </div>
+                    </li>
+                    <li class="item item-3 pure-u-1-3">
+                        <div class="item-icon">
+                            <a href="{{ path('collaboratorPersonalDetail') }}"><img src="{{ asset('images/profile_icon.png') }}" /></a>
+                        </div>
+                        <a href="{{ path('collaboratorPersonalDetail') }}"><img src="{{ asset('images/profile_text.png') }}" /></a>
+                        <p class="description">Ingresa aqu&iacute; para actualizar tus datos personales y los datos para el pago de las imagenes</p>
+                        <div>
+                            <a class="pure-button button" href="{{ path('collaboratorPersonalDetail') }}">Ingresar</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}

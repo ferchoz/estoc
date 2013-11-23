@@ -1,0 +1,84 @@
+generator: admingenerator.generator.doctrine
+params:
+    model: SSystems\EstocBundle\Entity\ClientProfile
+    namespace_prefix: SSystems
+    concurrency_lock: ~
+    bundle_name: BackendBundle
+    pk_requirement: ~
+    fields: ~
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+    list:
+        params:
+            title: Lista de Clientes
+            display: [firstname,lastname,user,email]
+            fields:
+              firstname:
+                label: Nombre
+              lastname:
+                label: Apellido
+              user:
+                getter: user.username
+                label: Usuario
+              email:
+                getter: user.email
+                label: Email
+            object_actions:
+                show: ~
+#                delete: ~
+    filters:
+        params:
+            display: [firstname,lastname]
+    edit:
+        params:
+            title: "You're editing the object \"%object%\"|{ %object%: ClientProfile }|"
+            display: ~
+            actions:
+                save: ~
+                list: ~
+    show:
+        params:
+            title: "Esta viendo los datos de: \"%object%\"|{ %object%: ClientProfile }|"
+            display: [firstname,lastname,phone,city,business,address,canton,state,postalCode,razonSocial,cedulaRuc,comercialPhone,paymentMethod,contactName,created]
+            fields:
+              firstname:
+                label: Nombre
+              lastname:
+                label: Apellido
+              phone:
+                label: Teléfono
+              city:
+                label: Ciudad
+              business:
+                label: Empresa
+              address:
+                label: Dirección
+              canton:
+                label: Canton
+              state:
+                label: estado
+              postalCode:
+                label: Codigo Postal
+              razonSocial:
+                label: Razon social
+              cedulaRuc:
+                label: Cedula o RUC
+              comercialPhone:
+                label: Teléfono comercial
+              paymentMethod:
+                label: Metodo de pago
+              contactName:
+                label: Nombre del Contacto
+              created:
+                label: Registrado
+            actions:
+                list: ~
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~

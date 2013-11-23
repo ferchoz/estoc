@@ -1,0 +1,4 @@
+estoc:
+    resource: "@EstocBundle/Controller/"
+    type:     annotation
+    prefix:   /

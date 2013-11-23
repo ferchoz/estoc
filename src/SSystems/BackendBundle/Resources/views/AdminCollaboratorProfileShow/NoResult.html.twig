@@ -1,0 +1,16 @@
+{% extends "SSystemsBackendBundle:Backend:admin_layout.html.twig" %}
+
+{% block body %}
+    <fieldset class="form_block form_fieldset_NONE tab-pane">
+        <div class="row-fluid">
+            <h2>Este Colaborador no tiene ventas sin pagar.</h2>
+        </div>
+    </fieldset>
+    <div id="show-actions" class="form-actions">
+        <div class="btn-toolbar">
+            <a class="btn " href="{{ path("SSystems_BackendBundle_AdminCollaboratorProfile_list", {}) }}">
+                <i class="icon-list-alt"></i> {% trans from "Admingenerator" %}action.generic.list{% endtrans %}
+            </a>
+        </div>
+    </div>
+{% endblock %}

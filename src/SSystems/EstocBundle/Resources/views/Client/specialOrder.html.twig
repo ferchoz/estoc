@@ -1,0 +1,29 @@
+{% extends 'EstocBundle:Client:clientHome.html.twig' %}
+
+{% block content_client %}
+    <div class="container-space home-container">
+        {{ form_start(form) }}
+        <div class="menu_titulo clearfix pure-g">
+            <div class="pure-u-2-3">PEDIDOS ESPECIALES</div>
+            <hr />
+        </div>
+        <div class="clearfix pure-g">
+            <div>
+                <p class="align-left">Si por alguna razón usted no encuentra la imágen que estaba buscando, nosotros con gusto podemos realizarla.<br/>
+                Solo tiene que rellenar el siguiente formulario. <span class="description">POR FAVOR SEA LO MÁS ESPECÍFICO Y DETALLADO POSIBLE</span></p>
+            </div>
+            <div class="large-field">
+                {{ form_widget(form.message) }}
+            </div>
+        </div>
+        <div class="clearfix pure-g">
+            <hr />
+            <div class="align-right">
+                <div class="pure-u">
+                    {{ form_widget(form.save) }}
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

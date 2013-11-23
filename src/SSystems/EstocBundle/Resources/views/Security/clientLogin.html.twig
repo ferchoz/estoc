@@ -1,0 +1,21 @@
+{% extends 'EstocBundle::layout.html.twig' %}
+
+{% block content %}
+
+        <form action="{{ path('client_login_check') }}" method="post" id="login" class="pure-form pure-form-stacked">
+            <div>
+                <label for="username">Nombre de Usuario</label>
+                <input type="text" id="username" name="_username" value="">
+            </div>
+
+            <div>
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="_password">
+            </div>
+            <input type="hidden" name="_target_path" value="/client" />
+            {% if error %}
+                <div class="error">{{ error.message|trans }}</div>
+            {% endif %}
+            <button type="submit" class="pure-button pure-button-primary">Ingresar</button>
+        </form>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'EstocBundle::layout.html.twig' %}
+
+{% block extra_header %}
+    {{ render(controller('EstocBundle:Front:searchBox')) }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-space home-container">
+        <div class="menu_titulo clearfix pure-g">
+            <div class="pure-u-2-3">¿QUIENES SÓMOS?</div>
+            <hr />
+        </div>
+        <div class="clearfix pure-g">
+            <div class="about-us-content">
+                <p class="align-left">Hoy en día tenemos acceso a varios bancos de imágenes con millones de fotos pero la verdad es que son muy pocas las que funcionan porque<br>
+                    la gran mayoría no hacen referencia a locaciones o personas de nuestro país. La idea de este proyecto es tener un banco de imágenes<br>
+                    100% ecuatoriano, representativo de las etnias y locaciones del país que sirva para solucionar la necesidad de nuestros clientes.</p>
+
+                <p class="align-left">Todas nuestras imágenes, son hechas en el país con fotógrafos, diseñadores, ilustradores y modelos locales, para cumplir con la Nueva Ley<br>
+                    de Comunicacón</p>
+            </div>
+        </div>
+        <div class="clearfix pure-g">
+            <hr />
+        </div>
+    </div>
+{% endblock %}

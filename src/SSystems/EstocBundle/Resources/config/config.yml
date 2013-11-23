@@ -1,0 +1,91 @@
+fos_user:
+    db_driver: orm
+    firewall_name: backend
+    user_class: SSystems\EstocBundle\Entity\User
+
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            sluggable: true
+            timestampable: true
+
+knp_gaufrette:
+    stream_wrapper: ~
+    adapters:
+        product_adapter:
+            local:
+                directory: %kernel.root_dir%/../web/uploads/files
+    filesystems:
+        product_image_fs:
+            adapter:    product_adapter
+
+vich_uploader:
+    db_driver: orm
+    gaufrette: true
+    storage: vich_uploader.storage.gaufrette
+    mappings:
+        product_image:
+            uri_prefix: %image.upload.path%
+            upload_destination: product_image_fs
+            namer: vich_uploader.namer_uniqid
+            inject_on_load:       true
+            delete_on_remove:     true
+            delete_on_update:     true
+
+avocode_form_extensions:
+    upload_manager:     vich_uploader
+    image_manipulator:  avalanche_imagine
+
+avalanche_imagine:
+    filters:
+        collaborator_upload_thumb:
+            type:    thumbnail
+            options: { size: [100, 75], mode: outbound }
+        search_thumb:
+            type:    thumbnail
+            options: { size: [200, 150], mode: outbound }
+        photo_related:
+            type:    thumbnail
+            options: { size: [100, 100], mode: outbound }
+        photo_detail:
+            type:    chain
+            options:
+                filters:
+                    relative_resize:
+                        widen: 600
+                    paste:
+                        image:   %kernel.root_dir%/../web/images/watermark.png
+                        x:       center                                 # [left|right|center] or integer
+                        y:       middle                                 # [top|bottom|middle] or integer
+
+fpn_tag:
+    model:
+        tag_class:     SSystems\EstocBundle\Entity\Tag
+        tagging_class: SSystems\EstocBundle\Entity\Tagging
+
+admingenerator_generator:
+    use_doctrine_orm:     true
+    base_admin_template: SSystemsBackendBundle:Backend:admin_layout.html.twig
+#    knp_menu_class: Crossmedia\HealthGateBundle\Menu\DefaultMenuBuilder
+#    dashboard_welcome_path: dashboard
+    logout_path: fos_user_security_logout
+#    stylesheets: [] # array of {path: path_to_stylesheet, media: all}
+#    javascripts: []
+    twig:
+#        use_form_resources: true
+#        use_localized_date: false
+        date_format: d/m/Y
+        datetime_format: d/m/Y - H:i:s
+#        localized_date_format: medium
+#        localized_datetime_format: medium
+#        number_format:
+#            decimal: 2
+#            decimal_point: .
+#            thousand_separator: ,
+
+admingenerator_user:
+     login_template: SSystemsBackendBundle:Backend:login.html.twig
+
+gregwar_image:
+    throw_exception: true

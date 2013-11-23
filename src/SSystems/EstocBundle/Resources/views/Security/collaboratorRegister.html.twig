@@ -1,0 +1,74 @@
+{% extends 'EstocBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/colorbox/example5/colorbox.css') }}">
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{{ path('collaboratorRegister') }}" class="pure-form pure-form-stacked collaborator register">
+
+        <fieldset class="pure-group">
+            <div class="pure-g">
+                <div class="pure-u-1-2 margin-column-left">
+                    {{ form_row(form.collaboratorProfile.firstname) }}
+                </div>
+                <div class="pure-u-1-2 margin-column-right" id="last-name">
+                    {{ form_row(form.collaboratorProfile.lastname) }}
+                </div>
+            </div>
+            <div>
+                {{ form_row(form.email) }}
+            </div>
+        </fieldset>
+
+        <fieldset class="pure-group">
+            <div>
+                {{ form_row(form.username) }}
+            </div>
+            <div>
+                {{ form_row(form.plainPassword) }}
+            </div>
+        </fieldset>
+
+        <fieldset class="pure-group">
+            <div>
+                {{ form_row(form.collaboratorProfile.phone) }}
+            </div>
+            <div>
+                {{ form_row(form.collaboratorProfile.city) }}
+            </div>
+            <div class="pure-g">
+                <div class="pure-u">
+                    <div id="registration_user_collaborator_type" class="non-stacked">
+                        {{ form_widget(form.collaboratorProfile.collaboratorType) }}
+                    </div>
+                </div>
+            </div>
+            <div class="pure-g">
+                <div class="pure-u-3-4">
+                    <div id="registration_user_collaborator_type" class="non-stacked">
+                        {{ form_widget(form.terms) }}<label for="collaborator_register_terms">Leí y acepto los <a class="modal menu_titulo" href="{{ path('terms') }}">términos y condiciones</a></label>
+                    </div>
+                </div>
+                <div class="pure-u-1-4">
+                    <input class="pure-button pure-button-primary register-btn" type="submit" value="REGISTRARSE">
+                </div>
+            </div>
+        </fieldset>
+        <p class="disclaimer"><span class="mandatory">SE NECESITA INTRODUCIR TODOS LOS CAMPOS</span>
+            Al hacer click en registrar acepta los términos y condiciones y la política de privacidad de ESTOC.</p>
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/colorbox/jquery.colorbox-min.js') }}"> </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".modal").colorbox({iframe:true, width:"700", height:"400"});
+        });
+    </script>
+{% endblock %}

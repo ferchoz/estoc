@@ -1,0 +1,38 @@
+{% extends 'EstocBundle::layout.html.twig' %}
+
+{% block extra_header %}
+    {% include 'EstocBundle:Front/include:search-bar.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('js/colorbox/example5/colorbox.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="pure-g-r">
+        <div class="home-container">
+            {% if images %}
+            <ul class="menu_home clearfix pure-g">
+                {% for image in images %}
+                    <li class="pure-u search-thumb">
+                        <a href="{{ path('photoDetail',{'id':image.id}) }}" class="photoDetail"><img class="image-link" src="{{ (vich_uploader_asset(image,'file')) | apply_filter('search_thumb') }}" /></a>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+               <p>NO SE ENCONTRO NADA</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/colorbox/jquery.colorbox-min.js') }}"> </script>
+    <script type="text/javascript">
+            $(document).ready(function(){
+                $(".photoDetail").colorbox({iframe:true, width:"920", height:"700"});
+            });
+    </script>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends_admingenerated "SSystemsBackendBundle:AdminImagesList:row.html.twig" %}
+
+{% block list_td_column_file %}
+    <a href="{{ path('downloadImageFileAdmin', {'id':Document.id}) }}" data-original-title="Download" rel="tooltip">
+        <img class="image-link" src="{{ (vich_uploader_asset(Document,'file')) | apply_filter('collaborator_upload_thumb') }}" />
+    </a>
+{% endblock %}

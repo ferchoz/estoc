@@ -1,0 +1,69 @@
+generator: admingenerator.generator.doctrine
+params:
+    model: SSystems\EstocBundle\Entity\Document
+    namespace_prefix: SSystems
+    concurrency_lock: ~
+    bundle_name: BackendBundle
+    pk_requirement: ~
+    fields: ~
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+    list:
+        params:
+            title: Imagenes
+            display: [file,tag,exclusive,active,created]
+            fields:
+              file:
+                label: Imagen
+              tag:
+                label: Tags
+              exclusive:
+                label: Exclusiva?
+              active:
+                label: Activada
+              created:
+                label: Fecha
+            sort: [ created, DESC ]
+#            actions:
+#                new: ~
+            object_actions:
+                edit: ~
+                delete: ~
+    filters:
+        params:
+            display: [tag,exclusive,active]
+    new:
+        params:
+            title: New object for BackendBundle
+            display: ~
+            actions:
+                save: ~
+                list: ~
+    edit:
+        params:
+            title: "Editando Imagen:"
+            display: [exclusive,active]
+            fields:
+              exclusive:
+                label: Exclusiva?
+              active:
+                label: Activar
+            actions:
+                save: ~
+                list: ~
+    show:
+        params:
+            title: "You're viewing the object"
+            display: ~
+            actions:
+                list: ~
+                new: ~
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~

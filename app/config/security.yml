@@ -1,0 +1,60 @@
+# app/config/security.yml
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        collaborator:
+            pattern:    ^/collaborator
+            context: primary_auth
+            form_login:
+                check_path: /collaborator/login_check
+                login_path: /collaborator/login
+            logout:
+                path:   /collaborator/logout
+                target: /
+            anonymous: ~
+            switch_user: ~
+        client:
+            pattern:    ^/client
+            context: primary_auth
+            form_login:
+                check_path: /client/login_check
+                login_path: /client/login
+            logout:
+                path:   /client/logout
+                target: /
+            anonymous: ~
+            switch_user: ~
+        backend:
+            pattern: ^/
+            context: primary_auth
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+                login_path: /admin/login
+                check_path: /admin/login_check
+            logout:
+                path:   /admin/logout
+                target: /
+            anonymous: ~
+
+    access_control:
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/collaborator/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/collaborator/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/client/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/client/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/collaborator/, role: ROLE_COLLABORATOR }
+        - { path: ^/client/, role: ROLE_CLIENT }
+#        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -1,0 +1,26 @@
+{% extends 'EstocBundle::layout.html.twig' %}
+
+{% block content %}
+    <div class="form-container clearfix">
+        <form action="{{ path('collaborator_login_check') }}" method="post" id="login" class="pure-form pure-form-stacked">
+            <div>
+                <label for="username">Nombre de Usuario</label>
+                <input type="text" id="username" name="_username" value="">
+            </div>
+
+            <div>
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="_password">
+            </div>
+            {% if error %}
+                <div class="error">{{ error.message|trans }}</div>
+            {% endif %}
+            <input type="hidden" name="_target_path" value="/collaborator" />
+            <button type="submit" class="pure-button pure-button-primary">Ingresar</button>
+        </form>
+        <div class="pure-form col-register">
+            <img src="{{ asset('images/primera_vez.png') }}" style="margin-bottom: 42px;">
+            <a class="pure-button pure-button-primary" href="{{ path('collaboratorRegister') }}">Registro</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'EstocBundle:Collaborator:collaboratorHome.html.twig' %}
+
+{% block content_collaborator %}
+<div class="container-space home-container align-center container-table">
+    <div class="container-cell download-height">
+        <div class="row">
+            <div class="row-left">Descargar contrato de modelos</div><div class="row-right"><a target="_blank" href="{{ asset('downloads/models/CONTRATO_modelo.pdf') }}" class="btn">DESCARGAR</a></div>
+        </div>
+        {#<div class="row">#}
+            {#<div class="row-left">Descargar manuales de ayuda</div><div class="row-right"><a href="{{ asset('downloads/models/CONTRATO_modelo.pdf') }}" class="btn">DESCARGAR</a></div>#}
+        {#</div>#}
+        <div class="row">
+            <div class="row-left">Descargar contrato de inmueble</div><div class="row-right"><a target="_blank" href="{{ asset('downloads/models/CONTRATO_inmuebles.pdf') }}" class="btn">DESCARGAR</a></div>
+        </div>
+        <div class="row">
+            <div class="row-left">Descargar contrato de menor de edad</div><div class="row-right"><a target="_blank" href="{{ asset('downloads/models/CONTRATO_MENOR_DE_EDAD.pdf') }}" class="btn">DESCARGAR</a></div>
+        </div>
+        <div class="row">
+            <div class="row-left">Descargar contato de exclusividad</div><div class="row-right"><a href="{{ asset('downloads/models/Contrato_de_Exclusividad.docx') }}" class="btn">DESCARGAR</a></div>
+        </div>
+        <div class="row">
+            <div class="row-left">Descarga politica de privacidad</div><div class="row-right"><a href="{{ asset('downloads/models/Politica_de_privacidad.docx') }}" class="btn">DESCARGAR</a></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

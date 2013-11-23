@@ -1,0 +1,123 @@
+{% extends 'EstocBundle:Collaborator:collaboratorHome.html.twig' %}
+
+{% block content_collaborator %}
+    <div class="container-space home-container">
+        <div class="clearfix pure-g">
+            {{ form_start(form, { 'attr': {'class': 'profile-form'} }) }}
+            <div class="pure-u-1-2">
+                <div class="left-panel">
+                    <div class="pure-g">
+                        <div class="pure-u-1-2">
+                            {{ form_row(form.CollaboratorProfile.firstname) }}
+                        </div>
+                        <div class="pure-u-1-2 right">
+                            {{ form_row(form.CollaboratorProfile.lastname) }}
+                        </div>
+                    </div>
+                    <div class="large-field">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <hr/>
+                    <div class="pure-g">
+                        <div class="pure-u-1-2">
+                            {{ form_row(form.CollaboratorProfile.phone) }}
+                        </div>
+                        <div class="pure-u-1-2 right">
+                            {{ form_row(form.CollaboratorProfile.city) }}
+                        </div>
+                    </div>
+                    <div class="pure-g">
+                        <div class="pure-u-1-2">
+                            <div class="widget-inline">
+                                {% for item in form.CollaboratorProfile.collaboratorType %}
+                                    {{ form_label(item) }}{{ form_widget(item, {'attr':{'onclick':'return false;', 'class':'disabled_input'}}) }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="pure-u-1-2 right">
+                            <button id="edit_perfil" type="button" class="btn">MODIFICAR</button>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="large-field">
+                        {{ form_row(form.CollaboratorProfile.address) }}
+                    </div>
+                    <div class="pure-g">
+                        <div class="pure-u-1-2">
+                            {{ form_row(form.CollaboratorProfile.canton) }}
+                        </div>
+                        <div class="pure-u-1-2 right">
+                            {{ form_row(form.CollaboratorProfile.state) }}
+                        </div>
+                    </div>
+                    <div class="pure-g">
+                        <div class="pure-u-1-2">
+                            {{ form_row(form.CollaboratorProfile.postalCode) }}
+                        </div>
+                        <div class="pure-u-1-2 right">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pure-u-1-2">
+                <div class="right-panel">
+                    <div class="large-field align-center">
+                        <span class="description">INGRESO DE DATOS PARA EL PAGO DE IMAGENES</span>
+                    </div>
+                    <div class="large-field">
+                        <p>{{ form_label(form.CollaboratorProfile.paymentMethod) }}</p>
+                    </div>
+                    <div class="large-field widget-inline">
+                        {% for item in form.CollaboratorProfile.paymentMethod %}
+                            {{ form_label(item) }}{{ form_widget(item) }}
+                        {% endfor %}
+                    </div>
+                    <div class="large-field">
+                        {{ form_row(form.CollaboratorProfile.titularCuenta) }}
+                    </div>
+                    <div class="large-field">
+                        {{ form_row(form.CollaboratorProfile.cedulaRuc) }}
+                    </div>
+                    <div class="large-field">
+                        {{ form_row(form.CollaboratorProfile.banco) }}
+                    </div>
+                    <div class="large-field">
+                        {{ form_row(form.CollaboratorProfile.numeroCuenta) }}
+                    </div>
+                    <div class="large-field widget-inline">
+                        {% for item in form.CollaboratorProfile.bankAccountType %}
+                            {{ form_label(item) }}{{ form_widget(item) }}
+                        {% endfor %}
+                    </div>
+                    <div class="large-field">
+                        <p><span class="description">SE NECESITA INTRODUCIR TODOS LOS CAMPOS</span></p>
+                        <p>Al hacer click en registrarse acepta los <a class="modal menu_titulo" href="{{ path('terms') }}">términos y condiciones</a>, y politica de privacidad de ESTOC.</p>
+                    </div>
+                    <div class="large-field">
+                        {{ form_widget(form.save) }}
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('js/colorbox/example5/colorbox.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/colorbox/jquery.colorbox-min.js') }}"> </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".modal").colorbox({iframe:true, width:"700", height:"400"});
+
+            $('#edit_perfil').click(function(){
+                $(".disabled_input").removeAttr('readonly').removeAttr('onclick');
+            });
+        });
+    </script>
+{% endblock %}

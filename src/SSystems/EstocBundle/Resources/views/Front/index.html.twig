@@ -1,0 +1,39 @@
+{% extends 'EstocBundle::layout.html.twig' %}
+
+{% block extra_header %}
+    {{ render(controller('EstocBundle:Front:searchBox')) }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/flexslider.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="flexslider">
+        <ul class="slides">
+            <li>
+                <img src="{{ asset('images/image_local.png') }}" />
+            </li>
+            <li>
+                <img src="{{ asset('images/image_modelos.png') }}" />
+            </li>
+            <li>
+                <img src="{{ asset('images/image_hacemos.png') }}" />
+            </li>
+            <li>
+                <img src="{{ asset('images/image_facebook.png') }}" />
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/jquery.flexslider-min.js') }}"> </script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            $('.flexslider').flexslider({controlNav: false, directionNav: false});
+        });
+    </script>
+{% endblock %}
