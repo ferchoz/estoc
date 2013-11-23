@@ -1,0 +1,10 @@
+/bin/
+/web/bundles/
+/web/assetic/
+/web/cache/
+/web/components/
+/app/bootstrap*
+/app/cache/*
+/app/logs/*
+/vendor/
+/app/config/parameters.yml
