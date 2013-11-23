@@ -2,6 +2,7 @@
 /web/bundles/
 /web/assetic/
 /web/cache/
+/web/media/*
 /web/components/
 /app/bootstrap*
 /app/cache/*
