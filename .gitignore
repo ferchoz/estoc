@@ -4,9 +4,12 @@
 /web/assetic/
 /web/cache/
 /web/media/*
+/web/uploads/files/*
+/web/downloads/users/*
 /web/components/
 /app/bootstrap*
 /app/cache/*
 /app/logs/*
 /vendor/
 /app/config/parameters.yml
+*.php~

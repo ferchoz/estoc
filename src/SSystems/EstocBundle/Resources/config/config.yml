@@ -16,9 +16,14 @@ knp_gaufrette:
         product_adapter:
             local:
                 directory: %kernel.root_dir%/../web/uploads/files
+        contract_adapter:
+            local:
+                directory: %kernel.root_dir%/../web/uploads/contract
     filesystems:
         product_image_fs:
             adapter:    product_adapter
+        product_contract_fs:
+            adapter:    contract_adapter
 
 vich_uploader:
     db_driver: orm
@@ -28,6 +33,13 @@ vich_uploader:
         product_image:
             uri_prefix: %image.upload.path%
             upload_destination: product_image_fs
+            namer: vich_uploader.namer_uniqid
+            inject_on_load:       true
+            delete_on_remove:     true
+            delete_on_update:     true
+        product_contract:
+            uri_prefix: %contract.upload.path%
+            upload_destination: product_contract_fs
             namer: vich_uploader.namer_uniqid
             inject_on_load:       true
             delete_on_remove:     true

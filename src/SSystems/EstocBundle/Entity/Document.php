@@ -43,9 +43,15 @@ class Document implements UploadCollectionFileInterface, Taggable
     protected $purchaseDetails;
 
     /**
+     * @ORM\OneToOne(targetEntity="Contract", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="contract_id", referencedColumnName="id", nullable=true)
+     */
+    protected $contract;
+
+    /**
      * @Assert\File(
-     *     maxSize="30M",
-     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
+     *     maxSize="80M",
+     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg", "image/tiff"}
      * )
      * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
      *
@@ -457,5 +463,28 @@ class Document implements UploadCollectionFileInterface, Taggable
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set contract
+     *
+     * @param \SSystems\EstocBundle\Entity\Contract $contract
+     * @return Document
+     */
+    public function setContract(\SSystems\EstocBundle\Entity\Contract $contract = null)
+    {
+        $this->contract = $contract;
+    
+        return $this;
+    }
+
+    /**
+     * Get contract
+     *
+     * @return \SSystems\EstocBundle\Entity\Contract 
+     */
+    public function getContract()
+    {
+        return $this->contract;
     }
 }

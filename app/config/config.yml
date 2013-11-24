@@ -29,6 +29,7 @@ parameters:
     price.plusIva: 1.1
     adjust.priceCollaborator: 0.3 #30% para los colaboradores
     image.upload.path: /uploads/files
+    contract.upload.path: /uploads/contract
     image.download.path: /downloads/users
 
 # Twig Configuration

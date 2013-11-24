@@ -4,6 +4,7 @@ namespace SSystems\EstocBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SSystems\EstocBundle\Form\ContractsFromUserType;
 use Symfony\Component\HttpFoundation\Request;
 use SSystems\EstocBundle\Form\UserType;
 use SSystems\EstocBundle\Form\Collaborator\CollaboratorFullProfileType;
@@ -119,9 +120,34 @@ class CollaboratorController extends Controller
      */
     public function downloadAction(Request $request)
     {
-
-        return array(
-        );
+        return array();
     }
 
+    /**
+     * @Route("/collaborator/upload-contracts",name="collaboratorUploadContracts")
+     * @Template()
+     */
+    public function collaboratorUploadContractsAction(Request $request)
+    {
+        $user = $this->getDoctrine()
+            ->getRepository('EstocBundle:User')
+            ->findUserWithImage($this->getUser()->getId());
+
+        $form = $this->createForm(new ContractsFromUserType(), $user);
+
+        $form->handleRequest($request);
+
+        if($form->isValid()){
+            try{
+                $this->getUserManager()->updateUser($user);
+                $this->get('session')->getFlashBag()->add('success-notification','Se guardaron correctamente sus datos');
+            }catch (\Exception $e){
+                $this->get('session')->getFlashBag()->add('error-notification','hubo un problema, intentelo de nuevo');
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+        );
+    }
 }

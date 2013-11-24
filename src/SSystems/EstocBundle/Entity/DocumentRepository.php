@@ -49,4 +49,14 @@ class DocumentRepository extends EntityRepository
         );
     }
 
+    public function findByUser($useId){
+        $query = $this->createQueryBuilder('i')
+            ->select('i','usr','cnt')
+            ->join('i.user','usr')
+            ->where('usr.id = :id')
+            ->where('i.contract','cnt')
+            ->setParameter('id',$useId)
+        ;
+        return $query->getQuery()->getResult();
+    }
 }

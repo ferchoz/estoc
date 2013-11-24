@@ -49,7 +49,7 @@ class User extends BaseUser
     protected $purchases;
 
     /**
-     * @ORM\OneToMany(targetEntity="Document",mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Document", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     protected $images;
 

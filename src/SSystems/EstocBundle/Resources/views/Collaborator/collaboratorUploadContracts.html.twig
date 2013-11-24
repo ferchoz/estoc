@@ -1,0 +1,148 @@
+{% extends 'EstocBundle:Collaborator:collaboratorHome.html.twig' %}
+
+{% block content_collaborator %}
+<div class="container-space home-container">
+    {{ form_start(form) }}
+    <div class="btn-toolbar">
+        <button type="submit" class="btn">Subir</button>
+    </div>
+        {% for imageField in form.images %}
+            <div class="pure-g">
+                <div class="pure-u-1-4">
+                    <img class="image-box" src="{{ (vich_uploader_asset(imageField.vars.data,'file')) | apply_filter('search_thumb') }}" />
+                </div>
+                <div class="pure-u-3-4">
+                    <div>
+                        {{ form_errors(imageField) }}
+                        {{ form_widget(imageField) }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    <div class="btn-toolbar">
+        <button type="submit" class="btn">Subir</button>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css" media="all" />
+    {{ parent() }}
+    {#{% include 'AvocodeFormExtensionsBundle::stylesheets_assetic_less.html.twig' %}#}
+    {#{% if form is defined %}#}
+        {#{{ form_stylesheet(form) }}#}
+    {#{% endif %}#}
+
+    <style>
+        .fileinput {
+            position:relative;
+            overflow:hidden;
+        }
+
+        .fileinput input[type="file"] {
+            -moz-border-bottom-colors:none;
+            -moz-border-left-colors:none;
+            -moz-border-right-colors:none;
+            -moz-border-top-colors:none;
+            border-image:none;
+            cursor:pointer;
+            direction:ltr;
+            opacity:0;
+            position:absolute;
+            right:0;
+            top:0;
+            transform:translate(-300px,0) scale(4);
+            height:30px;
+            line-height:30px;
+            border-color:transparent;
+            border-style:solid;
+            border-width:0 0 100px 200px;
+            margin:0;
+        }
+
+        .single-upload-preview {
+            width: 400px;
+            float: left;
+            display: inline-block;
+        }
+
+        .single-upload-buttonbar {
+            width: 200px;
+            float: left;
+            display: inline-block;
+        }
+
+        .single-upload{
+            display: inline-flex;
+        }
+        
+        .single-upload-preview [class*="_preview_image"] {
+            text-align:center;
+        }
+
+        .singleupload-buttonbar {
+            padding:5px 10px;
+        }
+
+        .singleupload-buttonbar>span,.singleupload-buttonbar>div,.singleupload-buttonbar>button,.singleupload-buttonbar>input {
+            display:inline-block;
+            margin-top:5px;
+            margin-bottom:5px;
+            vertical-align:top;
+        }
+
+        .singleupload-controls-wrapper {
+            margin-left:5px;
+            white-space:nowrap;
+        }
+
+        .singleupload-buttonbar .btn-wrapper {
+            position:relative;
+            vertical-align:top;
+            display:inline!important;
+            zoom:1!important;
+            font-size:0!important;
+        }
+
+        .singleupload-buttonbar .btn-wrapper>.btn,.singleupload-buttonbar .btn-wrapper>.ui-effects-wrapper {
+            margin-right:5px!important;
+        }
+
+        .singleupload-buttonbar .btn-wrapper>.ui-effects-wrapper .btn {
+            height:auto!important;
+            width:auto!important;
+        }
+
+        .singleupload-buttonbar .btn-wrapper+.btn-wrapper:not(.removed)>.ui-effects-wrapper {
+            position:relative;
+            left:-2px;
+            z-index:999;
+            margin-left:-100%!important;
+        }
+
+        .singleupload-buttonbar .btn-wrapper.removed {
+            margin-left:5px;
+        }
+
+        .single-upload+.help-block {
+            margin-top:20px;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('components/jquery-ui/ui/minified/jquery-ui.min.js') }}"></script>
+    {% include 'AvocodeFormExtensionsBundle::javascripts_assetic_less.html.twig' %}
+    {% if form is defined %}
+        {{ form_javascript(form) }}
+    {% endif %}
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.control-label').hide();
+        });
+    </script>
+
+{% endblock %}
