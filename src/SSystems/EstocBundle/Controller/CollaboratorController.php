@@ -157,6 +157,7 @@ class CollaboratorController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->merge($image);
                 $em->flush();
+                
                 $this->get('session')->getFlashBag()->add('success-notification','Se guardaron correctamente sus datos');
             }catch (\Exception $e){
                 $this->get('session')->getFlashBag()->add('error-notification','hubo un problema, intentelo de nuevo');
