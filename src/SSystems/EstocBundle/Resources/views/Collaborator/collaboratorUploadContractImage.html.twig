@@ -1,0 +1,60 @@
+{% extends 'EstocBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+        <section>
+            <div class="pure-g" id="flash_message_hiden">
+                <div class="pure-u-2-3">
+                    {% block flash_message %}
+                        {% for label, flashes in app.session.flashbag.all %}
+                            {% for flash in flashes %}
+                                <div id="flash_message" class="alert-box {{ label }}">{{ flash }}</div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endblock %}
+                </div>
+                <div class="pure-u-1-3">
+                </div>
+            </div>
+            <div class="pure-g container-space">
+                {{ form_start(form) }}
+                <div class="pure-u left-contract-form">
+                    <div>
+                        <img class="image-link image-contract-form" src="{{ (vich_uploader_asset(form.vars.data,'file')) | apply_filter('search_thumb') }}" />
+                    </div>
+                    <div>
+                        {{ form_widget(form.save) }}
+                    </div>
+                </div>
+                <div class="pure-u right-contract-form">
+                    {{ form_widget(form.contract) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}" type="text/css" media="all" />
+    {{ parent() }}
+    {% include 'AvocodeFormExtensionsBundle::stylesheets_assetic_less.html.twig' %}
+    {% if form is defined %}
+        {{ form_stylesheet(form) }}
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('components/jquery-ui/ui/minified/jquery-ui.min.js') }}"></script>
+    {% include 'AvocodeFormExtensionsBundle::javascripts_assetic_less.html.twig' %}
+    {% if form is defined %}
+        {{ form_javascript(form) }}
+    {% endif %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.control-label').hide();
+        });
+    </script>
+{% endblock %}

@@ -53,8 +53,8 @@ class DocumentRepository extends EntityRepository
         $query = $this->createQueryBuilder('i')
             ->select('i','usr','cnt')
             ->join('i.user','usr')
+            ->leftJoin('i.contract','cnt')
             ->where('usr.id = :id')
-            ->where('i.contract','cnt')
             ->setParameter('id',$useId)
         ;
         return $query->getQuery()->getResult();

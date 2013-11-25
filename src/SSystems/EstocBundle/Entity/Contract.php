@@ -111,7 +111,7 @@ class Contract implements UploadCollectionFileInterface
     /**
      * Get file
      *
-     * @return Symfony\Component\HttpFoundation\File\File
+     * @return \Symfony\Component\HttpFoundation\File\File
      */
     public function getFile()
     {
@@ -183,14 +183,14 @@ class Contract implements UploadCollectionFileInterface
     public function setUpdated($updated)
     {
         $this->updated = $updated;
-    
+
         return $this;
     }
 
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {

@@ -16,7 +16,6 @@ class ContractType extends AbstractType
     {
         $builder->add('file','single_upload',array(
             'required' => false,
-            'previewImages' => false,
         ));
     }
     

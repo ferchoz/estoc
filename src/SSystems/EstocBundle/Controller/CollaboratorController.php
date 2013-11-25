@@ -5,6 +5,7 @@ namespace SSystems\EstocBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SSystems\EstocBundle\Form\ContractsFromUserType;
+use SSystems\EstocBundle\Form\ImagesContractType;
 use Symfony\Component\HttpFoundation\Request;
 use SSystems\EstocBundle\Form\UserType;
 use SSystems\EstocBundle\Form\Collaborator\CollaboratorFullProfileType;
@@ -127,19 +128,35 @@ class CollaboratorController extends Controller
      * @Route("/collaborator/upload-contracts",name="collaboratorUploadContracts")
      * @Template()
      */
-    public function collaboratorUploadContractsAction(Request $request)
+    public function collaboratorUploadContractsAction()
     {
-        $user = $this->getDoctrine()
-            ->getRepository('EstocBundle:User')
-            ->findUserWithImage($this->getUser()->getId());
+        $images = $this->getDoctrine()
+            ->getRepository('EstocBundle:Document')
+            ->findByUser($this->getUser()->getId());
 
-        $form = $this->createForm(new ContractsFromUserType(), $user);
+        return array(
+            'images' => $images,
+        );
+    }
 
+    /**
+     * @Route("/collaborator/upload-contract/{id}",name="collaboratorUploadContractImage")
+     * @Template()
+     */
+    public function collaboratorUploadContractImageAction($id, Request $request)
+    {
+        $image = $this->getDoctrine()
+            ->getRepository('EstocBundle:Document')
+            ->find($id);
+
+        $form = $this->createForm(new ImagesContractType(),$image);
         $form->handleRequest($request);
 
-        if($form->isValid()){
+        if ($form->isValid()) {
             try{
-                $this->getUserManager()->updateUser($user);
+                $em = $this->getDoctrine()->getManager();
+                $em->merge($image);
+                $em->flush();
                 $this->get('session')->getFlashBag()->add('success-notification','Se guardaron correctamente sus datos');
             }catch (\Exception $e){
                 $this->get('session')->getFlashBag()->add('error-notification','hubo un problema, intentelo de nuevo');
@@ -147,7 +164,7 @@ class CollaboratorController extends Controller
         }
 
         return array(
-            'form' => $form->createView(),
+            'form'  => $form->createView(),
         );
     }
 }

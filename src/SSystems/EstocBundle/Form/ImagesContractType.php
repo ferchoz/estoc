@@ -18,6 +18,12 @@ class ImagesContractType extends AbstractType
                 'required' => false,
             )
         );
+        $builder->add('save', 'submit',array(
+            'label' => 'Actualizar',
+            'attr'  => array(
+                'class' => 'btn'
+            ),
+        ));
     }
     
     /**
