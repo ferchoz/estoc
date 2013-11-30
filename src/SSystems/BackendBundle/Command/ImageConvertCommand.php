@@ -25,7 +25,7 @@ class ImageConvertCommand extends ContainerAwareCommand
         $doctrine = $this->getContainer()->get('doctrine');
         $em = $doctrine->getManager();
 
-        $output->writeln('Procesando imagenes faltantes - '.date('Y-m-d G:i:s', time()));
+        $output->writeln(date('Y-m-d G:i:s', time()) .' - Procesando imagenes faltantes');
 
         $qb = $em->createQueryBuilder()
             ->select('p','pd','pdi','imgsz')
