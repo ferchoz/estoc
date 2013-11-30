@@ -24,12 +24,12 @@ class AjaxController extends Controller
      */
     public function clientAddToKartAction($id)
     {
-        if( $this->getSecurityContext()->isGranted('IS_AUTHENTICATED_FULLY') ){
+        if( $this->getSecurityContext()->isGranted('ROLE_CLIENT') ){
             $this->addToSessionKart($id);
             $this->get('session')->getFlashBag()->add('success-notification','Se añadio correctamente su item');
             $response = 'true';
         } else {
-            $this->get('session')->getFlashBag()->add('error-notification','Debe estar logueado para poder añadir items');
+            $this->get('session')->getFlashBag()->add('error-notification','Debe estar logueado como cliente para poder añadir items');
             $response = 'false';
         }
 

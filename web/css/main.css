@@ -453,3 +453,8 @@ input[readonly="readonly"]
 .image-contract-form{
     margin-top: 15%;
 }
+
+.ui-state-error{
+    background-color:red;
+    color:white;
+}

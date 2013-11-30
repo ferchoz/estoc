@@ -15,12 +15,13 @@ class DocumentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('id');
-//        $builder->add('imageName');
         $builder->add('position');
         $builder->add('tag',NULL,array(
             'label' => 'Tags',
             'attr' => array(
-                'class' => 'tag-input'
+                'class' => 'tag-input',
+                'pattern' => '^[a-zA-Z0-9-,]+$',
+                'title' => 'solo se aceptan letras,numeros y comas ","',
             ),
         ));
     }

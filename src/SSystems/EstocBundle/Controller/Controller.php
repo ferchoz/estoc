@@ -146,11 +146,11 @@ class Controller extends BaseController
     }
 
     protected function setDiscount($value){
-        return ($value)*0.3;
+        return ($value) * $this->container->getParameter('adjust.priceCollaborator');
     }
 
     protected function pluIVA($value){
-        return $value + ($value *0.1);
+        return $value + ($value * $this->container->getParameter('price.iva'));
     }
 
     /**

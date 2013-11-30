@@ -25,12 +25,13 @@ framework:
 parameters:
     fpn_tag.tag_manager.class:  SSystems\EstocBundle\Extended\TagManager
     price.exclusive: 1000
-    price.iva: 0.1
-    price.plusIva: 1.1
+    price.iva: 0.12
+    price.plusIva: 1.12
     adjust.priceCollaborator: 0.3 #30% para los colaboradores
     image.upload.path: /uploads/files
     contract.upload.path: /uploads/contract
     image.download.path: /downloads/users
+    email.sender: %mailer_from%
 
 # Twig Configuration
 twig:

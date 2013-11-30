@@ -53,19 +53,20 @@ avalanche_imagine:
     filters:
         collaborator_upload_thumb:
             type:    thumbnail
-            options: { size: [100, 75], mode: outbound }
+            options: { size: [100, 75], quality: 75, mode: outbound }
         search_thumb:
             type:    thumbnail
-            options: { size: [200, 150], mode: outbound }
+            options: { size: [200, 150], quality: 75, mode: outbound }
         photo_related:
             type:    thumbnail
-            options: { size: [100, 100], mode: outbound }
+            options: { size: [100, 100], quality: 75, mode: outbound }
         photo_detail:
             type:    chain
             options:
                 filters:
                     relative_resize:
                         widen: 600
+                        quality: 75
                     paste:
                         image:   %kernel.root_dir%/../web/images/watermark.png
                         x:       center                                 # [left|right|center] or integer

@@ -14,8 +14,13 @@ builders:
     list:
         params:
             title: Imagenes
-            display: [file,tag,exclusive,active,created]
+            display: [file,tag,contract,userMail,exclusive,active,created]
             fields:
+              userMail:
+                label: Email
+                getter: user.email
+              contract:
+                label: Contrato?
               file:
                 label: Imagen
               tag:
@@ -45,8 +50,12 @@ builders:
     edit:
         params:
             title: "Editando Imagen:"
-            display: [exclusive,active]
+            display: [tag,exclusive,active]
             fields:
+              tag:
+                addFormOptions:
+                  attr:
+                    pattern: '^[a-zA-Z0-9-,]+$'
               exclusive:
                 label: Exclusiva?
               active:

@@ -5,3 +5,51 @@
         <img class="image-link" src="{{ (vich_uploader_asset(Document,'file')) | apply_filter('collaborator_upload_thumb') }}" />
     </a>
 {% endblock %}
+
+{% block list_td_column_contract %}
+    {% if Document.contract %}
+        Si
+    {% else %}
+        No <a data-target="#{{ Document.id }}" data-toggle="modal" href="#">enviar recordatorio</a>
+        <!-- modal -->
+        <div id="{{ Document.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Enviar recordatorio</h3>
+            </div>
+            <form action="{{ path('adminSendMessageContract', {'id':Document.id}) }}" method="post">
+            <div class="">
+                <div class="row-fluid">
+                    <div class="span4 text-right">
+                        <strong>Email</strong>
+                    </div>
+                    <div class="span4">
+                        <div class="control-group form_field field_firstname">
+                            {{ Document.user.email }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span4 text-right">
+                        <strong>Mensaje</strong>
+                    </div>
+                    <div class="span4">
+                        <div class="control-group form_field field_lastname">
+                            <textarea name="message" class="input-xlarge" rows="4">Es necesario que cargues el contrato de la imagen id: {{ Document.id }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span4 text-right">
+                    </div>
+                    <div class="span4">
+                        <div class="control-group form_field field_lastname">
+                            <button type="submit">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    {% endif %}
+{% endblock list_td_column_contract %}

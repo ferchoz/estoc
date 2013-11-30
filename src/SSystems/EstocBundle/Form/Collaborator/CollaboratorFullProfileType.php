@@ -10,9 +10,12 @@ class CollaboratorFullProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('email', 'email',array(
+        $builder->add('email', 'email', array(
                 'label'     => 'E-mail',
                 'read_only' => true,
+                'attr' => array(
+                    'class' => 'disabled_input'
+                ),
             ));
         $builder->add('CollaboratorProfile', new CollaboratorProfileType());
         $builder->add('save','submit',array(

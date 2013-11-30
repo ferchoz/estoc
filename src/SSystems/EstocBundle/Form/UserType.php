@@ -24,7 +24,7 @@ class UserType extends AbstractType
 //            'sortable' => true,
 //            'sortable_field' => 'position',
 //            'maxNumberOfFiles' => 5,
-            'maxFileSize' => 30000000,
+            'maxFileSize' => 60000000,
             'minFileSize' => 1000,
             'acceptFileTypes' => '/(\.|\/)(gif|jpe?g|png|tiff)$/i',
             'loadImageFileTypes' => '/^image\/(gif|jpe?g|png|tiff)$/i',

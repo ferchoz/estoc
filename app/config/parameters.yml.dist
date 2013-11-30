@@ -12,3 +12,4 @@ parameters:
     locale: es
     secret: 0e5ad13721d072fa12d31b942d079ebbf5736732
     database_path: null
+    mailer_from: frivas@silicon-systems.com.ar

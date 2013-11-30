@@ -4,6 +4,7 @@ namespace SSystems\EstocBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -151,5 +152,32 @@ class SecurityController extends Controller
 
         $response->headers->set('Content-Disposition', $d);
         return $response;
+    }
+
+    /**
+     * @Route("/admin/send-messaje/contract/{id}",name="adminSendMessageContract")
+     */
+    public function adminSendMessageContract($id, Request $request)
+    {
+        $image = $this->getDoctrine()->getRepository('EstocBundle:Document')->find($id);
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Recordatorio de contrato')
+            ->setFrom($this->container->getParameter('email.sender'))
+            ->setTo($image->getUser()->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'SSystemsBackendBundle:Email:contract.txt.twig',
+                    array(
+                        'image' => $image,
+                        'message' => $request->get('message')
+                    )
+                )
+            )
+        ;
+        $this->get('mailer')->send($message);
+
+        $this->get('session')->getFlashBag()->add('success','se envio correctamente su mensaje');
+        return new RedirectResponse($this->generateUrl("SSystems_BackendBundle_AdminImages_list"));
     }
 }

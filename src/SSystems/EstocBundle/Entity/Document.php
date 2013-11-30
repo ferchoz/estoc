@@ -50,7 +50,7 @@ class Document implements UploadCollectionFileInterface, Taggable
 
     /**
      * @Assert\File(
-     *     maxSize="80M",
+     *     maxSize="60M",
      *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg", "image/tiff"}
      * )
      * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
@@ -71,6 +71,7 @@ class Document implements UploadCollectionFileInterface, Taggable
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var string $tag
+     * @Assert\Regex("/^[a-zA-Z0-9-,]+$/")
      */
     protected $tag;
 

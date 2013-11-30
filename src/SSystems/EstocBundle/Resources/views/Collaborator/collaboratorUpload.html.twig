@@ -12,6 +12,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('components/jquery-ui/ui/minified/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.h5validate.js') }}"></script>
     {% include 'AvocodeFormExtensionsBundle::javascripts_assetic_less.html.twig' %}
     {% if form is defined %}
         {{ form_javascript(form) }}
@@ -21,6 +22,7 @@
             $('.btn-info').hide();
             $('.btn-toggle').hide();
             $('tr:odd').addClass('odd');
+            $("#uploadForm").h5Validate();
 //            $(".delete").click(function(){
 //                if (!confirm("Do you want to delete")){
 //                    return false;
@@ -32,11 +34,11 @@
 
 {% block content_collaborator %}
 <div class="home-container">
-    {{ form_start(form) }}
+    {{ form_start(form, { 'attr': {'id': 'uploadForm'} }) }}
     {{ form_widget(form.images) }}
     {{ form_widget(form._token) }}
     <div class="btn-toolbar">
-        <button type="submit" class="btn">Subir</button>
+        <button type="submit" class="btn">Guardar</button>
     </div>
     {{ form_end(form) }}
 </div>
