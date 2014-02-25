@@ -15,7 +15,7 @@ class UserRepository extends EntityRepository
     public function findUserWithImage($id){
         $query = $this->createQueryBuilder('usr')
             ->select('usr','img','clpf','cnt')
-            ->join('usr.images','img')
+            ->leftJoin('usr.images','img')
             ->leftJoin('img.contract','cnt')
             ->join('usr.collaboratorProfile','clpf')
             ->where('usr.id = :id')
