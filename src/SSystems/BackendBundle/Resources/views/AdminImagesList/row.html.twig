@@ -6,6 +6,10 @@
     </a>
 {% endblock %}
 
+{% block list_td_column_tag %}
+    {{ Document.tag | truncate(40) }}
+{% endblock list_td_column_tag %}
+
 {% block list_td_column_contract %}
     {% if Document.contract %}
         Si
