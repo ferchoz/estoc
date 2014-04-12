@@ -4,8 +4,10 @@ namespace SSystems\EstocBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SSystems\EstocBundle\Entity\Document;
 use SSystems\EstocBundle\Form\ContractsFromUserType;
 use SSystems\EstocBundle\Form\ImagesContractType;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use SSystems\EstocBundle\Form\UserType;
 use SSystems\EstocBundle\Form\Collaborator\CollaboratorFullProfileType;
@@ -25,8 +27,18 @@ class CollaboratorController extends Controller
      * @Route("/collaborator/upload",name="collaboratorUpload")
      * @Template()
      */
-    public function collaboratorUploadAction(Request $request)
+    public function collaboratorUploadAction()
     {
+        return array();
+    }
+
+    /**
+     * @Route("/collaborator/upload-old",name="collaboratorUploadOld")
+     * @Template()
+     */
+    public function collaboratorUploadOldAction(Request $request)
+    {
+        die('not found');
         $user = $this->getDoctrine()
             ->getRepository('EstocBundle:User')
             ->findUserWithImage($this->getUser()->getId());
@@ -167,5 +179,111 @@ class CollaboratorController extends Controller
         return array(
             'form'  => $form->createView(),
         );
+    }
+
+    /**
+     * @Route("/collaborator/ajax-images",name="collaboratorImages")
+     */
+    public function collaboratorImagesAction(Request $request)
+    {
+        $avalancheService = $this->get('imagine.cache.path.resolver');
+        $fileSystem = $this->get('knp_gaufrette.filesystem_map')->get('product_image_fs');
+
+        if ($request->isMethod('POST')) {
+            $image = new Document();
+            $tags = (string) $request->request->get('images_tag');
+            $image->setTag($tags);
+            $file = $request->files->get('files');
+            $file = array_shift($file);
+            $image->setFile($file);
+            $image->setUser($this->getUser());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($image);
+            $em->flush();
+
+            $tagManager = $this->getTagManager();
+            if($image->getTag() != NULL ){
+                $tags = $tagManager->loadOrCreateTags($tagManager->splitTagNames($image->getTag()));
+                $tagManager->addTags($tags, $image);
+                $tagManager->saveTagging($image);
+            }
+
+            $imgTmp = $fileSystem->get($image->getImageName());
+            $file                   = array();
+            $file['id']             = $image->getId();
+            $file['name']           = $imgTmp->getName();
+            $file['size']           = $imgTmp->getSize();
+            $file['tags']           = $image->getTag();
+            $file['thumbnailUrl']   = $avalancheService->getBrowserPath('uploads/files/'.$imgTmp->getName(), 'collaborator_upload_thumb');
+            $file['deleteUrl']      = $this->generateUrl('collaboratorDeleteImage', array('id' => $image->getId()));
+            $file['updateUrl']      = $this->generateUrl('collaboratorImageUpdateTag', array('id' => $image->getId()));
+            $file['deleteType']     = 'DELETE';
+            $images['files'][]      = $file;
+
+        } else {
+            $imagesArray = $this->getDoctrine()
+                ->getRepository('EstocBundle:Document')
+                ->findByUser($this->getUser()->getId());
+
+            foreach ($imagesArray as $image) {
+                $imgTmp = $fileSystem->get($image->getImageName());
+                $file                   = array();
+                $file['id']             = $image->getId();
+                $file['name']           = $imgTmp->getName();
+                $file['size']           = $imgTmp->getSize();
+                $file['tags']           = $image->getTag();
+                $file['thumbnailUrl']   = $avalancheService->getBrowserPath('uploads/files/'.$imgTmp->getName(), 'collaborator_upload_thumb');
+                $file['deleteUrl']      = $this->generateUrl('collaboratorDeleteImage', array('id' => $image->getId()));
+                $file['updateUrl']      = $this->generateUrl('collaboratorImageUpdateTag', array('id' => $image->getId()));
+                $file['deleteType']     = 'DELETE';
+                $images['files'][]      = $file;
+            }
+        }
+
+        echo json_encode($images);die;
+    }
+
+    /**
+     * @Route("/collaborator/image/{id}/delete",name="collaboratorDeleteImage")
+     */
+    public function collaboratorDeleteImageAction($id)
+    {
+        $image = $this->getDoctrine()
+            ->getRepository('EstocBundle:Document')
+            ->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($image);
+        $em->flush();
+
+        $file[$image->getImageName()]   = true;
+        $images['files'][]              = $file;
+        echo(json_encode($images));die;
+    }
+
+    /**
+     * @Route("/collaborator/image/{id}/update-tag",name="collaboratorImageUpdateTag")
+     */
+    public function collaboratorImageUpdateTagAction($id, Request $request)
+    {
+        $image = $this->getDoctrine()
+            ->getRepository('EstocBundle:Document')
+            ->find($id);
+
+        $tagManager = $this->getTagManager();
+        $status = false;
+        $tag = (string) $request->get('tag');
+        $tag = ($tag != '') ? $tag : null;
+
+        $image->setTag($tag);
+
+        if($image->getTag() != NULL ){
+            $tags = $tagManager->loadOrCreateTags($tagManager->splitTagNames($image->getTag()));
+            $tagManager->addTags($tags, $image);
+            $tagManager->saveTagging($image);
+            $status = true;
+        }
+        echo json_encode($status);die;
     }
 }

@@ -395,9 +395,13 @@ display: table;
 }
 
 .tag-input{
-    width: 95%;
+    width: 100%;
 }
 
 .delete span{
     color: #808080;
+}
+
+.name, .size {
+    color: black!important;
 }

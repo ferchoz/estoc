@@ -458,3 +458,12 @@ input[readonly="readonly"]
     background-color:red;
     color:white;
 }
+
+.multiple-image-upload{
+    padding-top: 5px;
+    padding-bottom: 1px;
+}
+
+.success-tag{
+    border-color: green
+}

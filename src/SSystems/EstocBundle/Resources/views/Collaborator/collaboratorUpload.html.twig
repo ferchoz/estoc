@@ -1,45 +1,269 @@
 {% extends 'EstocBundle:Collaborator:collaboratorHome.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css" media="all" />
     {{ parent() }}
-    {% include 'AvocodeFormExtensionsBundle::stylesheets_assetic_less.html.twig' %}
-    {% if form is defined %}
-        {{ form_stylesheet(form) }}
-    {% endif %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css" media="all" />
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="{{ asset('css/imageUpload/jquery.fileupload.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/imageUpload/jquery.fileupload-ui.css') }}">
+    <noscript><link rel="stylesheet" href="{{ asset('css/imageUpload/jquery.fileupload-noscript.css') }}"></noscript>
+    <noscript><link rel="stylesheet" href="{{ asset('css/imageUpload/jquery.fileupload-ui-noscript.css') }}"></noscript>
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="{{ asset('components/jquery-ui/ui/minified/jquery-ui.min.js') }}"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
+    {#<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>#}
+    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+    <script src="{{ asset('js/imageUpload/vendor/jquery.ui.widget.js') }}"></script>
+    <!-- The Templates plugin is included to render the upload/download listings -->
+    <script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
+    <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+    <script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js"></script>
+    <!-- The Canvas to Blob plugin is included for image resizing functionality -->
+    <script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+    <!-- blueimp Gallery script -->
+    {#<script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>#}
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    {#<script src="{{ asset('js/imageUpload/jquery.iframe-transport.js') }}"></script>#}
+    <!-- The basic File Upload plugin -->
+    <script src="{{ asset('js/imageUpload/jquery.fileupload.js') }}"></script>
+    <!-- The File Upload processing plugin -->
+    <script src="{{ asset('js/imageUpload/jquery.fileupload-process.js') }}"></script>
+    <!-- The File Upload image preview & resize plugin -->
+    <script src="{{ asset('js/imageUpload/jquery.fileupload-image.js') }}"></script>
+    <!-- The File Upload audio preview plugin -->
+    {#<script src="{{ asset('js/imageUpload/jquery.fileupload-audio.js') }}"></script>#}
+    <!-- The File Upload video preview plugin -->
+    {#<script src="{{ asset('js/imageUpload/jquery.fileupload-video.js') }}"></script>#}
+    <!-- The File Upload validation plugin -->
+    <script src="{{ asset('js/imageUpload/jquery.fileupload-validate.js') }}"></script>
+    <!-- The File Upload user interface plugin -->
+    <script src="{{ asset('js/imageUpload/jquery.fileupload-ui.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.h5validate.js') }}"></script>
-    {% include 'AvocodeFormExtensionsBundle::javascripts_assetic_less.html.twig' %}
-    {% if form is defined %}
-        {{ form_javascript(form) }}
-    {% endif %}
-    <script type="text/javascript">
+    <!-- The main application script -->
+    <script>
         $(document).ready(function(){
-            $('.btn-info').hide();
-            $('.btn-toggle').hide();
-            $('tr:odd').addClass('odd');
-            $("#uploadForm").h5Validate();
-//            $(".delete").click(function(){
-//                if (!confirm("Do you want to delete")){
-//                    return false;
-//                }
-//            });
+            'use strict';
+            // Delete file confirmation message
+            // null if you don't want to ask confirmation
+            var confirmDeleteFileMessage = 'Seguro que desea borrar este archivo?';
+
+            // Delete all files confirmation message
+            // null if you don't want to ask confirmation
+            var confirmDeleteAllFilesMessage = 'Seguro que desea borrar los archivos seleccionados?';
+            var confirmed = false;
+            // Initialize the jQuery File Upload widget:
+            var upload = $('#image-upload');
+            upload.fileupload({
+                maxFileSize: 5000000,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                sequentialUploads: true,
+                url: '{{ path('collaboratorImages') }}',
+
+                destroy: function (e, data) {
+                    var that = $(this).data('fileupload');
+                    if ( typeof e.originalEvent.originalEvent == "undefined" ) {
+                        if (! confirmed) {
+                            if ( confirm(confirmDeleteAllFilesMessage) == true ) {
+                                confirmed = true;
+                            }
+                        }
+                        if ( confirmed ) {
+                            if (data.url) {
+                                $.ajax(data)
+                                    .success(function () {
+                                        $(this).fadeOut(function () {
+                                            $(this).remove();
+                                            $('tr:odd').addClass('odd');
+                                        });
+                                    });
+                            } else {
+                                data.context.fadeOut(function () {
+                                    $(this).remove();
+                                    $('tr:odd').addClass('odd');
+                                });
+                            }
+                        }
+                    } else {
+                        if ( confirm(confirmDeleteFileMessage) == true ) {
+                            if (data.url) {
+                                $.ajax(data)
+                                    .success(function () {
+                                        $(this).fadeOut(function () {
+                                            $(this).remove();
+                                            $('tr:odd').addClass('odd');
+                                        });
+                                    });
+                            } else {
+                                data.context.fadeOut(function () {
+                                    $(this).remove();
+                                    $('tr:odd').addClass('odd');
+                                });
+                            }
+                        }
+                    }
+                }
+            })
+                .bind('fileuploadprocessalways', function (e, data) {
+                    $('tr:odd').addClass('odd');
+                })
+                .bind('fileuploadalways', function (e, data) {
+                    $('tr:odd').addClass('odd');
+                });
+
+            // Load existing files:
+            upload.addClass('fileupload-processing');
+            $.ajax({
+                url: upload.fileupload('option', 'url'),
+                dataType: 'json',
+                context: upload[0]
+            }).always(function () {
+                $(this).removeClass('fileupload-processing');
+            }).done(function (result) {
+                $(this).fileupload('option', 'done').call(this, $.Event('done'), {result: result});
+                $('tr:odd').addClass('odd');
+            });
+
+            upload.h5Validate({
+                keyup: true
+            });
+
         });
+
+        function update_tag(id, url){
+            var tag = $('#images_tag_' + id);
+            if(tag.h5Validate("isValid")){
+                if (tag.val() != '') {
+                    $.post( url, { tag : tag.val() })
+                        .done(function( data ) {
+                            tag.addClass('success-tag');
+                        });
+                }
+            }
+        }
     </script>
 {% endblock %}
 
 {% block content_collaborator %}
 <div class="home-container">
-    {{ form_start(form, { 'attr': {'id': 'uploadForm'} }) }}
-    {{ form_widget(form.images) }}
-    {{ form_widget(form._token) }}
-    <div class="btn-toolbar">
-        <button type="submit" class="btn">Guardar</button>
-    </div>
-    {{ form_end(form) }}
+    <!-- The file upload form used as target for the file upload widget -->
+    <form id="image-upload" class="multiple-image-upload" method="POST" enctype="multipart/form-data">
+        <!-- Redirect browsers with JavaScript disabled to the origin page -->
+            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+            <div class="row fileupload-buttonbar">
+                <div class="col-lg-6 fileupload-buttons text-center">
+                    <!-- The fileinput-button span is used to style the file input field as button -->
+                    <span class="btn btn-success fileinput-button">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span>Add files...</span>
+                        <input type="file" name="files[]" accept="image/*" multiple>
+                    </span>
+                    <button type="submit" class="btn btn-primary start">
+                        <span class="glyphicon glyphicon-upload"></span>
+                        <span>Start upload</span>
+                    </button>
+                    <button type="reset" class="btn btn-warning cancel">
+                        <span class="glyphicon glyphicon-ban-circle"></span>
+                        <span>Cancel upload</span>
+                    </button>
+                    <button type="button" class="btn btn-danger delete delete-imagen-large">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        <span>Delete</span>
+                    </button>
+                    <input type="checkbox" class="toggle">
+                    <!-- The global file processing state -->
+                    <span class="fileupload-process"></span>
+                </div>
+                <!-- The global progress state -->
+                <div class="col-lg-5 fileupload-progress fade">
+                    <!-- The global progress bar -->
+                    <div class="progress active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar progress-bar-warning" style="width:0%;"></div>
+                    </div>
+                    <!-- The extended global progress state -->
+                    <div class="progress-extended">&nbsp;</div>
+                </div>
+            </div>
+            <!-- The table listing the files available for upload/download -->
+            <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+    </form>
 </div>
+
+    {% raw %}
+    <!-- The template to display files available for upload -->
+    <script id="template-upload" type="text/x-tmpl">
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
+        <tr class="template-upload fade">
+            <td>
+                <span class="preview"></span>
+            </td>
+            <td class="form">
+                <div class="control-group tag">
+                    <label class="control-label" for="images_tag">Tags</label>
+                    <div class="controls">
+                        <input type="text" id="images_tag" name="images_tag" maxlength="255" pattern="[a-zA-Z0-9-,]+" class="tag-input" title="solo se aceptan letras,numeros y comas &quot;,&quot;" value="{%=(file.tags)%}">
+                        <div class="progress active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-warning" style="width:0%;"></div></div>
+                    </div>
+                </div>
+            </td>
+            <td class="black-text">
+                <p class="name">{%=file.name%}</p>
+                <strong class="error text-danger"></strong>
+                <p class="size">Processing...</p>
+            </td>
+            <td class="actions">
+                {% if (!i && !o.options.autoUpload) { %}
+                    <button class="btn btn-primary start" disabled>
+                        <span class="glyphicon glyphicon-upload"></span>
+                        <span>Start</span>
+                    </button>
+                {% } %}
+                {% if (!i) { %}
+                    <button class="btn btn-warning cancel">
+                        <span class="glyphicon glyphicon-ban-circle"></span>
+                        <span>Cancel</span>
+                    </button>
+                {% } %}
+            </td>
+        </tr>
+    {% } %}
+    </script>
+    <!-- The template to display files available for download -->
+    <script id="template-download" type="text/x-tmpl">
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
+        <tr class="template-download fade in">
+            <td class="preview">
+                <img src="{%=file.thumbnailUrl%}">
+            </td>
+            {% if (file.error) { %}
+            <td>
+                <div><span class="error">Error</span> {%=file.error%}</div>
+            </td>
+            {% } %}
+            <td class="form">
+                <div class="control-group tag">
+                    <div class="controls">
+                        <label class="control-label" for="images_tag">Tags</label>
+                        <input type="text" id="images_tag_{%=file.id%}" name="images_tag" maxlength="255" pattern="[a-zA-Z0-9-,]+" class="tag-input" title="solo se aceptan letras,numeros y comas &quot;,&quot;" value="{%=(file.tags)%}">
+                    </div>
+                </div>
+            </td>
+            <td class="size">
+                <span>{%=o.formatFileSize(file.size)%}</span>
+            </td>
+            <td class="actions">
+                <button class="btn update-tag" type="button" onClick="javastript:update_tag({%=file.id%},'{%=file.updateUrl%}');">
+                    <span class="glyphicon glyphicon-refresh"></span> Actualizar
+                </button>
+                <button class="btn btn-danger delete delete-imagen confirm" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <span class="glyphicon glyphicon-trash"></span> Borrar
+                </button>
+                <input type="checkbox" name="delete" value="1" class="toggle">
+            </td>
+        </tr>
+    {% } %}
+    </script>
+    {% endraw %}
+
 {% endblock %}
